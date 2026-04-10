@@ -10,11 +10,12 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
+        // Membuat atau memperbarui akun Admin
         User::updateOrCreate(
-        ['email' => 'admin@qmed.test'],
+        ['email' => 'admin@q-med.my.id'],
         [
-            'name' => 'Admin Bidan',
-            'password' => Hash::make('password'),
+            'name' => 'Administrator',
+            'password' => Hash::make('qmedadmin123!'),
         ]
         );
     }
