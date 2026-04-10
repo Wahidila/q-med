@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Admin\QueueController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\ServiceHistoryController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // Public
@@ -33,10 +34,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/queue/{queue}/start', [QueueController::class , 'startService'])->name('queue.startService');
     Route::post('/queue/{queue}/complete', [QueueController::class , 'completeService'])->name('queue.completeService');
     Route::post('/queue/{queue}/skip', [QueueController::class , 'skipQueue'])->name('queue.skip');
+    Route::post('/queue/{queue}/recall', [QueueController::class , 'recallQueue'])->name('queue.recall');
 
     // Patients CRUD
     Route::resource('patients', PatientController::class)->except(['show']);
 
     // Service history
     Route::get('/services', [ServiceHistoryController::class , 'index'])->name('services.index');
+    Route::get('/services/export', [ServiceHistoryController::class , 'export'])->name('services.export');
+
+    // Settings
+    Route::get('/settings', [SettingController::class , 'index'])->name('settings.index');
+    Route::post('/settings', [SettingController::class , 'update'])->name('settings.update');
+    Route::post('/settings/security', [SettingController::class , 'updateSecurity'])->name('settings.security.update');
 });

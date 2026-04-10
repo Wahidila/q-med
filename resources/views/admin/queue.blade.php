@@ -5,27 +5,36 @@
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
     <form action="{{ route('admin.queue.callNext') }}" method="POST">
         @csrf
-        <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-xl shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
-            <i data-lucide="megaphone" class="w-5 h-5 mr-2"></i> Panggil Berikutnya
+        <button type="submit" class="inline-flex items-center px-6 py-3.5 border border-transparent text-base font-bold rounded-2xl shadow-[0_4px_14px_0_rgba(13,148,136,0.39)] text-white bg-teal-600 hover:bg-teal-700 hover:shadow-[0_6px_20px_rgba(13,148,136,0.23)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
+            <i data-lucide="megaphone" class="w-5 h-5 mr-2.5"></i> Panggil Berikutnya
         </button>
     </form>
-    <a href="{{ route('admin.registration.index') }}" class="inline-flex items-center px-4 py-2.5 border border-slate-300 text-sm font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+    <a href="{{ route('admin.registration.index') }}" class="inline-flex items-center px-5 py-3 border border-slate-200 text-sm font-bold rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:border-slate-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
         <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Pasien Baru
     </a>
 </div>
 
 @if($currentServing)
-<div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-8 mb-8 text-white shadow-lg relative overflow-hidden flex flex-col items-center">
-    <div class="absolute -right-10 -top-10 opacity-10">
+<div class="bg-gradient-to-br from-teal-600 to-teal-800 rounded-3xl p-8 mb-8 text-white shadow-[0_8px_30px_-12px_rgba(13,148,136,0.6)] relative overflow-hidden flex flex-col items-center border border-teal-500/30 group">
+    <div class="absolute -right-10 -top-10 opacity-10 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700">
         <i data-lucide="activity" class="w-48 h-48"></i>
     </div>
+    <div class="absolute -left-10 -bottom-10 opacity-[0.05] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700">
+        <i data-lucide="headphones" class="w-40 h-40"></i>
+    </div>
     
-    <div class="text-sm font-bold tracking-widest uppercase text-teal-100 mb-2">Sedang Dilayani / Dipanggil</div>
-    <div class="text-6xl font-black tracking-tighter mb-4">#{{ str_pad($currentServing->queue_number, 3, '0', STR_PAD_LEFT) }}</div>
-    <div class="text-2xl font-semibold mb-2">{{ $currentServing->patient->name }}</div>
+    <div class="text-sm font-extrabold tracking-widest uppercase text-teal-100 mb-2 relative z-10 flex items-center gap-2">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-200 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-teal-300"></span>
+        </span>
+        Sedang Dilayani / Dipanggil
+    </div>
+    <div class="text-7xl font-black tracking-tighter mb-4 relative z-10">#{{ str_pad($currentServing->queue_number, 3, '0', STR_PAD_LEFT) }}</div>
+    <div class="text-3xl font-bold mb-3 relative z-10">{{ $currentServing->patient->name }}</div>
     
-    <div class="mt-2">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-sm shadow-sm">
+    <div class="mt-2 relative z-10">
+        <span class="inline-flex items-center px-4 py-1.5 rounded-xl text-sm font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20 backdrop-blur-md shadow-sm">
             {{ $currentServing->status === 'serving' ? 'Sedang Dilayani' : 'Sedang Dipanggil' }}
         </span>
     </div>
@@ -47,66 +56,75 @@
     } 
 }">
 
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
-            <h3 class="font-bold text-slate-800 flex items-center gap-2 text-lg">
-                <i data-lucide="list" class="w-5 h-5 text-slate-400"></i> Daftar Antrian Hari Ini
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)] overflow-hidden">
+        <div class="px-8 py-6 border-b border-slate-100 bg-white">
+            <h3 class="font-extrabold text-slate-800 flex items-center gap-3 text-lg tracking-tight">
+                <div class="p-2 bg-slate-50 rounded-lg text-slate-400"><i data-lucide="list" class="w-5 h-5"></i></div>
+                Daftar Antrian Hari Ini
             </h3>
         </div>
         
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-semibold border-b border-slate-200">
-                        <th class="px-6 py-4">No.</th>
-                        <th class="px-6 py-4">Nama Pasien</th>
-                        <th class="px-6 py-4">Status</th>
-                        <th class="px-6 py-4">Waktu</th>
-                        <th class="px-6 py-4 text-right">Aksi</th>
+                <thead class="bg-slate-50/50">
+                    <tr class="text-slate-500 text-xs uppercase tracking-wider font-bold border-b border-slate-100">
+                        <th class="px-8 py-5">No.</th>
+                        <th class="px-8 py-5">Nama Pasien</th>
+                        <th class="px-8 py-5">Status</th>
+                        <th class="px-8 py-5">Waktu</th>
+                        <th class="px-8 py-5 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 bg-white">
+                <tbody class="divide-y divide-slate-50 bg-white">
                     @forelse($queues as $queue)
-                    <tr class="hover:bg-slate-50/80 transition-colors duration-150 {{ $queue->status === 'called' ? 'bg-amber-50/50' : ($queue->status === 'serving' ? 'bg-blue-50/50' : '') }}">
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-bold text-sm border border-slate-200">
+                    <tr class="hover:bg-slate-50/80 transition-colors duration-200 group {{ $queue->status === 'called' ? 'bg-amber-50/30' : ($queue->status === 'serving' ? 'bg-blue-50/30' : '') }}">
+                        <td class="px-8 py-5">
+                            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-slate-700 font-black text-sm border border-slate-200 shadow-sm group-hover:border-teal-200 group-hover:text-teal-700 group-hover:bg-teal-50 transition-colors">
                                 {{ $queue->queue_number }}
-                            </span>
+                            </div>
                         </td>
-                        <td class="px-6 py-4 font-semibold text-slate-800">{{ $queue->patient->name }}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-8 py-5 font-bold text-slate-800">{{ $queue->patient->name }}</td>
+                        <td class="px-8 py-5">
                             @if($queue->status === 'waiting')
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">Menunggu</span>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 shadow-sm">Menunggu</span>
                             @elseif($queue->status === 'called')
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200 animate-pulse">Dipanggil</span>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-100 text-amber-700 border border-amber-200 shadow-sm animate-pulse">Dipanggil</span>
                             @elseif($queue->status === 'serving')
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">Dilayani</span>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200 shadow-sm">Dilayani</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">Selesai</span>
+                                <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 shadow-sm">Selesai</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-slate-500 font-medium text-sm">{{ $queue->created_at->format('H:i') }}</td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="px-8 py-5 text-slate-500 font-semibold text-sm">{{ $queue->created_at->format('H:i') }}</td>
+                        <td class="px-8 py-5 text-right">
                             @if($queue->status === 'called')
-                                <form action="{{ route('admin.queue.startService', $queue) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition">
-                                        <i data-lucide="play-circle" class="w-3.5 h-3.5 mr-1.5"></i> Mulai
-                                    </button>
-                                </form>
+                                <div class="inline-flex gap-2">
+                                    <form action="{{ route('admin.queue.recall', $queue) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="inline-flex items-center px-3.5 py-2 border border-amber-200 text-xs font-bold rounded-xl text-amber-700 bg-white hover:bg-amber-50 shadow-sm transition-all hover:-translate-y-0.5">
+                                            <i data-lucide="volume-2" class="w-4 h-4 mr-1.5 text-amber-500"></i> Panggil Ulang
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.queue.startService', $queue) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        <button type="submit" class="inline-flex items-center px-3.5 py-2 border border-transparent text-xs font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all hover:-translate-y-0.5">
+                                            <i data-lucide="play-circle" class="w-4 h-4 mr-1.5"></i> Mulai
+                                        </button>
+                                    </form>
+                                </div>
                             @elseif($queue->status === 'serving')
-                                <button type="button" @click="openModal({{ $queue->id }}, '{{ addslashes($queue->patient->name) }}')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 transition">
-                                    <i data-lucide="check-square" class="w-3.5 h-3.5 mr-1.5"></i> Selesai
+                                <button type="button" @click="openModal({{ $queue->id }}, '{{ addslashes($queue->patient->name) }}')" class="inline-flex items-center px-3.5 py-2 border border-transparent text-xs font-bold rounded-xl text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-600/20 transition-all hover:-translate-y-0.5">
+                                    <i data-lucide="check-square" class="w-4 h-4 mr-1.5"></i> Selesai
                                 </button>
                             @elseif($queue->status === 'waiting')
                                 <form action="{{ route('admin.queue.skip', $queue) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin melewati pasien ini?')">
                                     @csrf
-                                    <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-slate-300 text-xs font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 transition">
-                                        <i data-lucide="skip-forward" class="w-3.5 h-3.5 mr-1.5"></i> Lewati
+                                    <button type="submit" class="inline-flex items-center px-3.5 py-2 border border-slate-200 text-xs font-bold rounded-xl text-slate-600 bg-white hover:bg-slate-50 hover:text-slate-900 shadow-sm transition-all hover:-translate-y-0.5">
+                                        <i data-lucide="skip-forward" class="w-4 h-4 mr-1.5 text-slate-400"></i> Lewati
                                     </button>
                                 </form>
                             @else
-                                <span class="text-slate-300">—</span>
+                                <span class="text-slate-300 font-bold">—</span>
                             @endif
                         </td>
                     </tr>

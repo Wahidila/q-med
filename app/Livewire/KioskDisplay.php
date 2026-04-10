@@ -10,6 +10,7 @@ class KioskDisplay extends Component
     public $currentQueue = null;
     public $upcomingQueues = [];
     public $lastCalledId = null;
+    public $lastCalledTimestamp = 0;
 
     public function mount()
     {
@@ -25,6 +26,7 @@ class KioskDisplay extends Component
             ->first();
 
         $previousId = $this->lastCalledId;
+        $previousTimestamp = $this->lastCalledTimestamp;
 
         if ($called) {
             $this->currentQueue = [
@@ -34,6 +36,7 @@ class KioskDisplay extends Component
                 'status' => $called->status,
             ];
             $this->lastCalledId = $called->id;
+            $this->lastCalledTimestamp = $called->updated_at->timestamp;
         }
         else {
             $this->currentQueue = null;
@@ -51,8 +54,11 @@ class KioskDisplay extends Component
         ])
             ->toArray();
 
-        // Dispatch browser event when a new queue is called
-        if ($called && $previousId !== $called->id) {
+        // Only play sound when status is 'called' (not 'serving')
+        $isNewCall = $called && $called->status === 'called'
+            && ($previousId !== $called->id || $previousTimestamp !== $this->lastCalledTimestamp);
+
+        if ($isNewCall) {
             $this->dispatch('queue-called', [
                 'number' => $called->queue_number,
                 'name' => $called->patient->name,

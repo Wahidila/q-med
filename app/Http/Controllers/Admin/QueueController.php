@@ -84,4 +84,15 @@ class QueueController extends Controller
         return redirect()->route('admin.queue.index')
             ->with('info', "Antrian #{$queue->queue_number} dilewati.");
     }
+
+    public function recallQueue(Queue $queue)
+    {
+        $queue->update([
+            'status' => 'called',
+            'called_at' => now(),
+        ]);
+
+        return redirect()->route('admin.queue.index')
+            ->with('success', "Memanggil ulang antrian #{$queue->queue_number} - {$queue->patient->name}");
+    }
 }

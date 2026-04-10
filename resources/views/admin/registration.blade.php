@@ -2,16 +2,16 @@
 @section('page-title', 'Pendaftaran Pasien')
 
 @section('content')
-<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" 
+<div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)] border border-slate-100 overflow-hidden" 
     x-data="registrationForm()">
     
-    <div class="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
-        <div class="p-2 bg-teal-100 text-teal-600 rounded-lg">
+    <div class="px-8 py-6 border-b border-slate-100 bg-white flex items-center gap-4">
+        <div class="p-3 bg-teal-50 text-teal-600 rounded-xl">
             <i data-lucide="clipboard-signature" class="w-6 h-6"></i>
         </div>
         <div>
-            <h3 class="font-bold text-slate-800 text-lg">Pendaftaran & Ambil Antrian</h3>
-            <p class="text-sm text-slate-500">Cari pasien yang sudah ada atau daftarkan pasien baru.</p>
+            <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Pendaftaran & Ambil Antrian</h3>
+            <p class="text-sm text-slate-500 mt-0.5 font-medium">Cari pasien yang sudah ada atau daftarkan pasien baru.</p>
         </div>
     </div>
 
@@ -96,9 +96,9 @@
             </div>
         </div>
 
-        <div class="flex justify-end pt-6 border-t border-slate-100">
-            <button type="submit" class="inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-xl shadow-sm text-base font-semibold text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
-                <i data-lucide="printer" class="w-5 h-5 mr-2"></i> Daftar & Ambil Antrian
+        <div class="flex justify-end pt-8 border-t border-slate-100 mb-2">
+            <button type="submit" class="inline-flex items-center justify-center px-8 py-3.5 border border-transparent rounded-2xl shadow-[0_4px_14px_0_rgba(13,148,136,0.39)] text-base font-bold text-white bg-teal-600 hover:bg-teal-700 hover:shadow-[0_6px_20px_rgba(13,148,136,0.23)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200">
+                <i data-lucide="printer" class="w-5 h-5 mr-2.5"></i> Daftar & Ambil Antrian
             </button>
         </div>
     </form>
